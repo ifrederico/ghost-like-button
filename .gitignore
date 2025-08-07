@@ -1,0 +1,28 @@
+# Environment variables
+applause-api/.env
+applause-api/*.env
+!applause-api/.env.example
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+applause-api/data/*
+!applause-api/data/.gitkeep
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+CLAUDE.md
+
+# Docker
+applause-api/compose.yml
+!applause-api/compose.example.yml

@@ -1,0 +1,45 @@
+{{!-- 
+    Pinned/Featured Post Component
+    Shows the latest featured post using standard card layout with bigger image
+--}}
+
+{{#get "pages" filter="featured:true" limit="1" as |featured|}}
+    {{#if featured}}
+    <section class="gh-header is-classic gh-outer">
+        <div class="gh-header-inner gh-inner">
+        <div class="gh-pinned">
+            {{#foreach featured}}
+                <article class="gh-card post featured">
+                    <a class="gh-pinned-card" href="{{url}}">
+                        {{#if feature_image}}
+                            <figure class="gh-card-image-pinned">
+                                <img srcset="{{img_url feature_image size="s"}} 300w,
+                                            {{img_url feature_image size="m"}} 600w,
+                                            {{img_url feature_image size="l"}} 1000w,
+                                            {{img_url feature_image size="xl"}} 2000w" 
+                                     sizes="(max-width: 767px) calc(100vw - 40px), 600px" 
+                                     src="{{img_url feature_image size="m"}}" 
+                                     alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" 
+                                     loading="lazy">
+                            </figure>
+                        {{/if}}
+                        <div class="gh-card-wrapper-pinned">
+                            <h3 class="gh-card-title is-title">{{title}}</h3>
+                            {{#if excerpt}}
+                                <p class="gh-card-excerpt is-body">{{excerpt}}</p>
+                            {{/if}}
+                            <footer class="gh-card-meta">
+                                {{#foreach authors}}
+                                    <span class="gh-card-author">By {{name}}</span>
+                                {{/foreach}}
+                               {{!--  <time class="gh-card-date" datetime="{{date format="YYYY-MM-DD"}}">{{date}}</time> --}}
+                            </footer>
+                        </div>
+                    </a>
+                </article>
+            {{/foreach}}
+            </div>
+        </div>
+    </section>
+    {{/if}}
+{{/get}}

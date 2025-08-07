@@ -1,0 +1,134 @@
+{{!-- Post Card Mini Footer – HTML + JS only (all CSS external) --}}
+
+<div class="gh-card-actions">
+  {{!-- Applause Button (using existing component) --}}
+  <applause-button 
+    api="/applause"
+    url="{{url absolute="true"}}"
+    class="gh-card-action gh-card-applause">
+  </applause-button>
+
+  {{!-- Comments (Ghost helper for live count) --}}
+  <button class="gh-card-action gh-card-comments"
+          type="button"
+          data-post-url="{{url absolute="true"}}"
+          aria-label="View comments">
+     <svg width="18" height="18" viewBox="0 0 1200 1200" fill="currentColor" aria-hidden="true">
+      <path d="m1015 1146.7c-65.113 0-127.33-24.418-174.5-67.766-80.402 44.41-171.05 67.766-263.81 67.766-301.47 0-546.73-245.26-546.73-546.73s245.26-546.73 546.73-546.73c301.46 0 546.72 245.26 546.72 546.73 0 104.73-29.398 205.79-85.145 293.16 14.465 66.184 55.887 122.65 115.06 156.21 9.9844 5.6602 16.285 16.129 16.625 27.598 0.33203 11.477-5.3516 22.289-14.992 28.52-41.723 26.984-90.117 41.242-139.95 41.242zm-169-141.84c9.1914 0 18.262 3.8516 24.691 11.172 36.254 41.312 88.848 65.008 144.3 65.008 19.633 0 38.953-2.9609 57.395-8.7188-53.484-46-89.469-109.45-101.26-180.72-1.3711-8.2695 0.47656-16.75 5.1641-23.707 53.285-79.051 81.449-171.7 81.449-267.92 0-265.26-215.81-481.07-481.07-481.07-265.26 0-481.07 215.81-481.07 481.07s215.8 481.07 481.07 481.07c89.43 0 176.6-24.648 252.09-71.277 5.3438-3.3047 11.312-4.9023 17.234-4.9023z"/>
+    </svg>
+    {{comment_count empty="0" singular="" plural="" class="gh-card-comment-count"}}
+  </button>
+
+  {{!-- Share (always copy link + Ghost-style toast) --}}
+  <button class="gh-card-action gh-card-share"
+          type="button"
+          data-url="{{url absolute="true"}}"
+          data-title="{{title}}"
+          aria-label="Copy link">
+    <svg width="18" height="18" viewBox="0 0 1200 1200" fill="currentColor" aria-hidden="true">
+      <path d="m340.71 1170c-79.441 0.007812-158.85-29.238-219.32-87.734-58.965-57.043-91.297-132.92-91.297-213.9 0-80.988 32.332-156.87 91.051-213.67l138.34-133.82c118.69-114.8 307.25-117.54 429.27-6.2695l-21.945 24.41-22.785 23.625-0.16406-0.15625c-95.816-87.367-244.91-85.188-338.73 5.5703l-138.34 133.82c-45.816 44.32-71.051 103.45-71.051 166.49 0 63.039 25.234 122.16 71.051 166.48 96.004 92.887 251.81 92.863 347.59 0.23828l131.2-126.92c13.031-12.605 33.824-12.262 46.41 0.76953 12.598 13.031 12.262 33.805-0.76953 46.41l-131.2 126.93c-60.457 58.484-139.9 87.727-219.31 87.734z"/>
+      <path d="m722.52 767.09c-75.699 0-151.47-27.145-211.28-81.68l21.945-24.41 22.785-23.625 0.16406 0.15625c95.828 87.379 244.93 85.195 338.73-5.5703l138.34-133.82c45.816-44.32 71.051-103.45 71.051-166.49 0-63.039-25.234-122.16-71.051-166.48-96.004-92.887-251.81-92.871-347.59-0.23828l-131.2 126.92c-13.031 12.598-33.812 12.262-46.41-0.76953-12.598-13.031-12.262-33.805 0.76953-46.41l131.2-126.92c120.93-117.01 317.71-116.97 438.62 0 58.965 57.043 91.297 132.92 91.297 213.9 0 80.988-32.332 156.87-91.051 213.67l-138.34 133.82c-60.512 58.547-139.22 87.953-217.99 87.953z"/>
+    </svg>
+  </button>
+</div>
+
+{{!-- JS only once per page --}}
+{{#if @first}}
+<script>
+(function () {
+  if (window.postCardMiniFooterInitialized) return;
+  window.postCardMiniFooterInitialized = true;
+
+  document.addEventListener('click', (e) => {
+    const shareBtn = e.target.closest('.gh-card-share');
+    if (shareBtn) {
+      e.preventDefault(); e.stopPropagation();
+      copyToClipboard(shareBtn.dataset.url);
+      return;
+    }
+
+    const commentsBtn = e.target.closest('.gh-card-comments');
+    if (commentsBtn) {
+      e.preventDefault(); e.stopPropagation();
+      location.href = commentsBtn.dataset.postUrl + '#ghost-comments-root';
+    }
+  });
+
+  function copyToClipboard(text){
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text)
+        .then(() => toast('Link copied'))
+        .catch(() => legacyCopy(text));
+    } else {
+      legacyCopy(text);
+    }
+  }
+
+  function legacyCopy(text){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    ta.style.pointerEvents = 'none';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      toast('Link copied');
+    } catch {
+      toast('Could not copy link', 'error');
+    }
+    ta.remove();
+  }
+
+  // Ensure Ghost-style notifications container exists (CSS is external)
+  function getToastContainer(){
+    let el = document.querySelector('.gh-notifications');
+    if (!el) {
+      el = document.createElement('aside');
+      el.className = 'gh-notifications';
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+
+  // Render a Ghost-style notification (uses your external CSS)
+  function toast(message, type = 'success'){
+    const wrap = getToastContainer();
+    const article = document.createElement('article');
+    const typeClass = (type === 'error' || type === 'warn') ? ' gh-notification-error' : '';
+    article.className = 'gh-notification gh-notification-passive' + typeClass;
+    article.setAttribute('role','status');
+    article.setAttribute('aria-live','polite');
+
+    const iconSvg = (type === 'error' || type === 'warn')
+      ? '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 2a10 10 0 110 20 10 10 0 010-20zm1 13h-2v-2h2v2zm0-4h-2V7h2v4z" fill="currentColor"></path></svg>'
+      : '<svg viewBox="0 0 14 15" width="16" height="16" aria-hidden="true"><path d="M7 .5a7 7 0 100 14 7 7 0 000-14zm4.043 4.783l-3.996 5.42a.582.582 0 01-.834.11L3.36 8.533a.583.583 0 01-.087-.823.583.583 0 01.81-.088l2.38 1.902 3.64-4.94a.583.583 0 01.968.045.583.583 0 01-.028.654z" fill="currentColor"></path></svg>';
+
+    article.innerHTML = `
+      <div class="gh-notification-content">
+        <div class="gh-notification-header">
+          <div class="gh-notification-icon">${iconSvg}</div>
+          <div><span class="gh-notification-title">${message}</span></div>
+        </div>
+      </div>
+      <button class="gh-notification-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="8" height="8" aria-hidden="true">
+          <path d="M12.707 12L23.854.854a.5.5 0 00-.707-.707L12 11.293.854.146a.5.5 0 00-.707.707L11.293 12 .146 23.146a.5.5 0 00.708.708L12 12.707l11.146 11.146a.5.5 0 10.708-.706L12.707 12z" stroke-width="2"></path>
+        </svg>
+        <span class="hidden">Close</span>
+      </button>
+    `;
+
+    wrap.appendChild(article);
+
+    article.querySelector('.gh-notification-close')?.addEventListener('click', () => {
+      article.remove();
+    }, { once: true });
+
+    // Auto-remove after passive animation ends (~5.6s)
+    setTimeout(() => { if (article.parentNode) article.remove(); }, 5600);
+  }
+})();
+</script>
+{{/if}}

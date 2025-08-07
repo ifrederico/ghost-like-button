@@ -1,0 +1,22 @@
+services:
+  ghost-applause: 
+    build: .
+    container_name: ghost-applause
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 8787
+    volumes:
+      - ./data:/data
+    networks:
+      # IMPORTANT: Replace with your Ghost network name
+      # Find it with: docker network ls | grep ghost
+      your_ghost_network: {}
+    mem_limit: 128m
+
+networks:
+  your_ghost_network:
+    external: true
+    # name: ghost_ghost_network  # Uncomment and update with your network

@@ -1,0 +1,29 @@
+# Add this to your existing Caddyfile configuration
+
+# Option 1: Using handle_path (simplest)
+yourdomain.com {
+    # Your existing Ghost config above...
+    
+    handle_path /applause/* {
+        reverse_proxy ghost-applause:8787
+    }
+    
+    # Your existing Ghost reverse proxy
+    reverse_proxy ghost:2368
+}
+
+# Option 2: Using path matcher with strip_prefix
+yourdomain.com {
+    # Your existing Ghost config above...
+    
+    @applause path /applause*
+    handle @applause {
+        uri strip_prefix /applause
+        reverse_proxy ghost-applause:8787  # Must match container_name
+    }
+    
+    # Default: proxy everything else to Ghost
+    handle {
+        reverse_proxy ghost:2368
+    }
+}

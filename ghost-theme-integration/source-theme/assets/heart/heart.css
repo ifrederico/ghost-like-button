@@ -1,0 +1,94 @@
+/* applause-button.css — single-SVG version (no !important) */
+applause-button {
+  --animation-duration: 0.5s;
+
+  box-sizing: border-box;
+  display: block;
+  height: initial !important;   /* keeps host flexible; safe here */
+}
+
+applause-button.loading { opacity: 0.5; }
+applause-button *       { box-sizing: border-box; }
+
+/* ---------- visual root ---------- */
+applause-button .style-root {
+  --disabled-color: rgba(0, 0, 0, .55);
+  --enabled-color : var(--ghost-accent-color);
+
+  display: flex;
+  align-items: center;
+  fill  : var(--disabled-color);
+  stroke: var(--disabled-color);
+  color : var(--disabled-color);
+  transition: fill .25s ease, stroke .25s ease;
+}
+applause-button.clapped .style-root {
+  fill  : var(--enabled-color);
+  stroke: var(--enabled-color);
+  color : var(--enabled-color);
+}
+
+/* ---------- button & layout ---------- */
+applause-button .heart-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+}
+applause-button .heart-button:focus-visible {
+  outline: 0.25rem solid;
+  outline-offset: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+applause-button .heart-wrapper {
+  position: relative;
+}
+
+applause-button .clap-count {
+  font-size: 1.25rem;
+  line-height: 1;
+  min-width: 2ch;
+  transform: translateY(-1px);
+}
+applause-button .clap-count.visually-hidden {
+  opacity: 0;
+  width: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ---------- SVG ---------- */
+/* Higher-specificity rule outranks the 14 px theme rule */
+.gh-card-meta .gh-card-actions .gh-card-action applause-button .heart {
+  width : 100%;
+  height: 100%;
+}
+
+applause-button .heart {
+  fill: transparent;
+  stroke-width: 75;
+  overflow: visible;
+  transform-origin: 50% 50%;        /* centred pulse */
+  transition: fill .25s ease, stroke .25s ease;
+}
+
+applause-button.clapped .heart {
+  fill  : var(--enabled-color);
+  stroke: var(--enabled-color);
+}
+
+/* ---------- pulse animation ---------- */
+@keyframes pulse {
+  0%   { transform: scale(1);   }
+  50%  { transform: scale(1.2); }
+  100% { transform: scale(1);   }
+}
+applause-button.clap .heart {
+  animation: pulse var(--animation-duration) ease;
+}
