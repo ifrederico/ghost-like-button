@@ -9,7 +9,6 @@ A lightweight, privacy-focused applause/like system for Ghost blogs. Members can
 - 🎯 **One-click toggle** - Members can like/unlike posts
 - 🔐 **Ghost native auth** - Uses Ghost's built-in member authentication
 - 💾 **Lightweight** - SQLite database, ~128MB RAM usage
-- 🎨 **Customizable** - Adapts to your theme's accent color
 - 🔒 **Privacy-focused** - Only stores email hashes, no tracking
 - ⚡ **Fast** - Optimistic UI with instant feedback
 
