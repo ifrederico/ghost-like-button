@@ -81,7 +81,7 @@ MIT License - See LICENSE file
 
 ## 🤝 Contributing
 
-Contributions welcome! Please read our contributing guidelines first.
+Contributions welcome!
 
 ## 💬 Support
 
