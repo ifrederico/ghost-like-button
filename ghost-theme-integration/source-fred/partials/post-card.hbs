@@ -54,11 +54,8 @@
                     <time class="gh-card-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time>
                 {{/if}}
                 --}}
-                 {{#if @custom.show_reading_time}}
-                    <time class="gh-card-date"> — {{reading_time}}</time>
-                {{/if}}
                 {{#unless hideMiniFooter}}
-                    {{> "post-card-mini-footer"}}
+                    {{> "components/post-actions" context="card"}} 
                 {{/unless}}<!--
          --></footer>
         </div>

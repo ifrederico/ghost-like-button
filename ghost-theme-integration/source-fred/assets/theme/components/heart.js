@@ -68,8 +68,8 @@
         <div class="style-root">
           <button type="button" aria-label="applaud post" class="heart-button">
             <div class="heart-wrapper">
-              <svg class="heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" aria-hidden="true">
-                <path d="m1091.1 654.25-491.14 492.21-492.92-492.21c-325.88-325.88 166.33-817.73 492.92-491.85 328.38-329.45 820.94 162.76 491.14 491.85z"/>
+              <svg class="heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" aria-hidden="true">
+                <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"></path>
               </svg>
             </div>
             <div class="clap-count visually-hidden" aria-live="polite" aria-label="clap count">0</div>

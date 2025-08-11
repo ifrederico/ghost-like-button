@@ -6,7 +6,7 @@
 
 Copy the `heart` folder to your theme's `assets` directory:
 ```
-your-theme/assets/heart/
+your-theme/assets/theme/components/heart/
 ├── heart.js
 └── heart.css
 ```
@@ -17,8 +17,8 @@ Add before `</body>`:
 
 ```handlebars
 {{!-- Applause Button System --}}
-<link rel="stylesheet" href="{{asset "heart/heart.css"}}">
-<script defer src="{{asset "heart/heart.js"}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset "theme/components/heart.css"}}">
+<script defer src="{{asset "theme/components/heart.js"}}"></script>
 <a id="applause-portal-signin" data-portal="signin" hidden></a>
 ```
 

@@ -5,6 +5,7 @@ applause-button {
   box-sizing: border-box;
   display: block;
   height: initial !important;   /* keeps host flexible; safe here */
+  
 }
 
 applause-button.loading { opacity: 0.5; }
@@ -71,16 +72,16 @@ applause-button .clap-count.visually-hidden {
 }
 
 applause-button .heart {
-  fill: transparent;
-  stroke-width: 75;
+  fill: none;
+  stroke-width: 2;
   overflow: visible;
   transform-origin: 50% 50%;        /* centred pulse */
   transition: fill .25s ease, stroke .25s ease;
 }
 
 applause-button.clapped .heart {
-  fill  : var(--enabled-color);
-  stroke: var(--enabled-color);
+  fill: currentColor;
+  stroke: currentColor;
 }
 
 /* ---------- pulse animation ---------- */

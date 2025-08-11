@@ -1,0 +1,751 @@
+/* ================================================
+   CUSTOM GHOST THEME - APP.CSS
+   Professional Theme Stylesheet
+   ================================================ */
+
+/* ================================================
+   FONT IMPORTS
+   ================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&display=swap');
+
+
+/* ================================================
+   BASE HTML STYLES
+   ================================================ */
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* ================================================
+   TYPOGRAPHY & BASE STYLES
+   ================================================ */
+
+/* Font Family */
+body, 
+.gh-content,
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Literata", ui-serif, Georgia, "Times New Roman", Times, serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+/* Content Typography */
+.gh-content {
+    font-size: var(--content-font-size, 1.8rem);
+    letter-spacing: -.02em;
+}
+
+.gh-content p { 
+    line-height: 1.7;
+    font-size: 19px;
+    margin-top: 0.8em;
+}
+
+.gh-article-excerpt {
+    display: none;
+}
+
+.gh-article-tag {
+    color: var(--color-primary-text);
+}
+
+.gh-article-author-image {
+    display: none;
+}
+
+
+/* ================================================
+   NAVIGATION
+   ================================================ */
+
+/* Search alignment */
+.gh-navigation.is-stacked .gh-navigation-actions {
+    justify-content: flex-end;
+}
+
+/* Active page underline */
+.gh-navigation-menu .nav-current a {
+    position: relative;
+}
+
+.gh-navigation-menu .nav-current a::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--ghost-accent-color);
+}
+
+/* Stacked navigation adjustments */
+@media (min-width: 992px) {
+    .gh-navigation.is-stacked .gh-navigation-menu .nav-current a::after {
+        bottom: -20px;
+    }
+
+    .gh-navigation.is-stacked .gh-navigation-inner::before {
+        content: "";
+        position: absolute;
+        left: 10;
+        top: 15%;
+        width: 40px;
+        height: 40px;
+        background-image: url(https://fred.pt/content/images/size/w256h256/2025/04/chef-icon.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
+
+
+/* ================================================
+   CARD COMPONENTS
+   ================================================ */
+
+/* Card Meta & Actions Container */
+.gh-card-meta {
+    display: flex;
+    gap: 1.6rem;
+}
+
+/* Card Actions Row */
+.gh-card-actions {
+    display: flex;
+    gap: 1.6rem;
+    flex: 1 1 auto;
+}
+
+.gh-card-share {
+  margin-left: auto; 
+  margin-right: 10px;
+}
+
+@media (max-width: 767px) {
+  .gh-card-share { margin-right: 14px; }
+}
+
+/* Card Action Buttons */
+.gh-card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--color-secondary-text);
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.08s ease;
+}
+
+/* Card Action Icons */
+.gh-card-meta .gh-card-actions .gh-card-action svg {
+    display: block;   
+    position: static;
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+
+/* Card Action Hover State */
+.gh-card-action:hover {
+    color: var(--color-dark-gray);
+}
+
+/* Card Action Focus State */
+.gh-card-action:focus-visible {
+    outline: 2px solid var(--accent-color, #3b82f6);
+    outline-offset: 2px;
+}
+
+/* Comment Count */
+.gh-card-comment-count {
+    font-size: small;
+    font-variant-numeric: tabular-nums;
+    display: inline-block;
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+/* Heart Button Styles */
+.heart {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    transition: stroke 0.25s ease;
+}
+
+.heart-button:hover .heart {
+    stroke: var(--ghost-accent-color);
+}
+
+
+/* ================================================
+   POST ACTIONS
+   ================================================ */
+
+/* Post Action Wrapper */
+.gh-post-action-wrapper {
+    margin: 2rem 0 0;
+    border-bottom: 1px solid var(--color-lighter-gray);
+    border-top: 1px solid var(--color-lighter-gray);
+}
+
+/* Post Actions Container */
+.gh-post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1.4rem 0.8rem;
+    gap: 1.4rem;
+}
+
+.gh-post-share {
+    margin-left: auto;     
+}
+
+/* Post Action Buttons */
+.gh-post-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--color-secondary-text);
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+/* Post Action Icons */
+.gh-post-action svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+}
+
+/* Post Action Hover State */
+.gh-post-action:hover {
+    color: var(--color-dark-gray);
+}
+
+/* Post Action Focus State */
+.gh-post-action:focus-visible {
+    outline: 2px solid var(--accent-color, #3b82f6);
+    outline-offset: 2px;
+    border-radius: 0.4rem;
+}
+
+/* Post Comment Count */
+.gh-post-comment-count {
+    font-size: small;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+/* ================================================
+   ACTION BUTTONS – SHARED HOVER SURFACE
+   Applies to: .gh-card-action, .gh-post-action, applause-button
+   ================================================ */
+
+:root {
+  --action-hover-bg: #f3f4f6; 
+  --action-active-bg: #e5e7eb;
+}
+
+/* Base (shared) */
+.gh-card-action,
+.gh-post-action,
+applause-button.gh-card-action,
+applause-button.gh-post-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 6px 8px;             
+  border-radius: 8px;           
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background-color .12s ease, color .12s ease;
+}
+
+/* Hover: soft grey */
+.gh-card-action:hover,
+.gh-post-action:hover,
+applause-button.gh-card-action:hover,
+applause-button.gh-post-action:hover {
+  background-color: var(--action-hover-bg);
+}
+
+/* Active: slightly darker */
+.gh-card-action:active,
+.gh-post-action:active,
+applause-button.gh-card-action:active,
+applause-button.gh-post-action:active {
+  background-color: var(--action-active-bg);
+}
+
+/* Focus (keep your existing outline) */
+.gh-card-action:focus-visible,
+.gh-post-action:focus-visible,
+applause-button.gh-card-action:focus-visible,
+applause-button.gh-post-action:focus-visible {
+  outline: 2px solid var(--accent-color, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* ================================================
+   POST LIST & CARDS
+   ================================================ */
+
+/* List Layout - Image on Right */
+.gh-container.is-list .gh-card-image {
+    order: 2;
+}
+
+.gh-container.is-list .gh-card-wrapper {
+    order: 1;
+    flex: 1;
+}
+
+.gh-container.is-list .gh-card-link {
+    justify-content: space-between;
+}
+
+/* Card Images */
+.gh-card-image img,
+.gh-article-image img,
+.kg-card img, 
+.kg-image-card img {
+    border-radius: 4px;
+}
+
+/* Mobile Card Layout */
+@media (max-width: 767px) {
+    .gh-container.is-list .gh-card-link {
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .gh-container.is-list .gh-card-image {
+        width: 100px;
+        min-width: 100px;
+    }
+}
+
+/* Desktop Image Sizing */
+@media (min-width: 768px) {
+    .gh-article-image img,
+    .kg-card img, 
+    .kg-image-card img {
+        width: 65%;
+        margin: 0 auto;
+        display: block; 
+    }
+}
+
+
+/* ================================================
+   POPOVER FOR DESKTOP SHARE MENU
+   ================================================ */
+.gh-share-menu {
+  position: absolute;
+  z-index: 4000;
+  min-width: 200px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 8px;
+  box-shadow: 0 10px 40px -12px rgba(0,0,0,.25);
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity .15s ease, transform .15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.gh-share-menu.is-open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.gh-share-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.4rem;
+  text-align: left;
+}
+
+.gh-share-item-text {
+    transform: translateY(-1px);
+}
+
+.gh-share-item:hover,
+.gh-share-item:focus-visible {
+  background: var(--color-lighter-gray, #f3f4f6);
+  color: var(--color-dark-gray, #111827);
+  outline: none;
+}
+
+.gh-share-item[aria-disabled="true"] {
+  opacity: .5;
+  cursor: default;
+}
+
+.gh-share-item-icon {
+  width: 16px;
+  height: 16px;
+  line-height: 1;
+}
+
+
+/* ================================================
+   NOTIFICATION SYSTEM
+   ================================================ */
+
+/* Notification Container */
+.gh-notifications {
+    z-index: 7000;
+    display: flex;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Notification Box */
+.gh-notification {
+    position: relative;
+    margin-top: 8px;
+    min-width: 272px;
+    max-width: 320px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow:
+        0 0 1px rgba(0,0,0,.28),
+        0 100px 80px rgba(0,0,0,.0112458),
+        0 41.7776px 33.4221px rgba(0,0,0,.0161557),
+        0 22.3363px 17.869px rgba(0,0,0,.02),
+        0 12.5216px 10.0172px rgba(0,0,0,.0238443),
+        0 6.6501px 5.32008px rgba(0,0,0,.0287542),
+        0 2.76726px 2.21381px rgba(0,0,0,.04);
+    color: #15171a;
+    font-size: 1.2rem;
+    line-height: 1.25em;
+    min-height: 44px;
+    pointer-events: auto;
+}
+
+@media (max-width: 1240px) {
+    .gh-notification { 
+        min-width: 232px; 
+    }
+}
+
+/* Notification Icon */
+.gh-notification-icon {
+    margin-top: 1px;
+    line-height: 0;
+    color: #30cf43; /* success green */
+}
+
+:is(.gh-notification-error, .gh-notification-warn) .gh-notification-icon {
+    color: #f50b23; /* error red */
+}
+
+.gh-notification-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Notification Content */
+.gh-notification-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border-radius: 3px;
+    margin-right: 28px;
+}
+
+.gh-notification-content p span { 
+    white-space: nowrap; 
+}
+
+.gh-notification-header {
+    display: flex;
+    gap: 10px;
+}
+
+.gh-notification-title {
+    display: block;
+    font-weight: 400;
+    font-size: 1.4rem;
+}
+
+/* Notification Close Button */
+.gh-notification-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 8px;
+    background: none;
+    border-radius: 999px;
+    line-height: 0;
+    width: 24px;
+    height: 24px;
+    border: 0;
+    cursor: pointer;
+    transform: translateY(-1px);
+}
+
+.gh-notification-close svg {
+    height: 8px;
+    width: 8px;
+    stroke: #7c8b9a;
+}
+
+.gh-notification-close:hover svg { 
+    stroke: #394047; 
+}
+
+.gh-notification-close svg path { 
+    stroke-width: 2px; 
+}
+
+/* Notification Animations */
+.gh-notification-passive {
+    animation: notification-fade-in-spring .8s cubic-bezier(.445,.05,.55,.95) 0s 1,
+               fade-out .35s linear 5s 1 forwards;
+}
+
+.gh-notification-passive:hover {
+    animation: notification-fade-in-spring .8s cubic-bezier(.445,.05,.55,.95) 0s 1;
+}
+
+@keyframes notification-fade-in-spring {
+    0%     { transform: translateY(100%); }
+    26.52% { transform: translateY(-3.9px); }
+    63.26% { transform: translateY(1.2px); }
+    100%   { transform: translateY(0); }
+}
+
+@keyframes fade-out {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+
+/* ================================================
+   PINNED POSTS
+   ================================================ */
+
+.gh-header.is-classic {
+    padding-block: 4rem;
+}
+
+.gh-pinned {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 4rem;
+}
+
+/* Pinned Card */
+.gh-pinned-card {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.gh-pinned .gh-pinned-card:hover {
+    opacity: 1 !important;
+}
+
+/* Pinned Card Image */
+.gh-card-image-pinned {
+    flex: 0 0 60%;         
+    display: flex;         
+    align-items: center;
+    margin: 0;
+}
+
+.gh-card-image-pinned img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: .4rem;
+}
+
+/* Pinned Card Content */
+.gh-card-wrapper-pinned {
+    flex: 0 0 40%;
+}
+
+/* Pinned Card Mobile */
+@media (max-width: 767px) {
+    .gh-pinned-card {
+        flex-wrap: wrap;
+        gap: 3rem;
+    }
+    
+    .gh-card-image-pinned,
+    .gh-card-wrapper-pinned {
+        flex: 0 0 100%;
+    }
+
+    .gh-card-wrapper-pinned {
+        text-align: left;
+    }
+}
+
+
+/* ================================================
+   PAGINATION
+   ================================================ */
+
+.gh-more {
+    display: block;
+}
+
+.gh-container-title {
+    display: block !important;
+}
+
+
+/* ================================================
+   FOOTER
+   ================================================ */
+
+/* Main Footer */
+.gh-footer {
+    margin-top: 8vw;
+}
+
+.gh-footer-signup {
+    padding-bottom: 48px;
+}
+
+.gh-footer-signup .gh-footer-signup-header,
+.gh-footer-signup-header {
+    font-size: calc(clamp(2.8rem, 1.36vw + 2.25rem, 2.8rem) * var(--factor, 1));
+}
+
+.gh-footer-bar {
+    display: none;
+    margin-bottom: 24px;
+    grid-template-columns: 1fr;
+}
+
+.gh-footer-copyright {
+    text-align: center;
+}
+
+/* Page Template Footer Spacing */
+.page-template .gh-footer { 
+    margin-top: 6vw; 
+}
+
+/* Mini Footer */
+.mini-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 32px 0;
+    text-align: center;
+    background: var(--color-lighter-gray);
+    margin-top: 1.6rem;
+}
+
+.mini-footer-text {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+}
+
+.mini-footer-social {
+    margin-top: 1.6rem;
+    display: flex;
+    gap: 1.6rem;
+    justify-content: center;
+}
+
+.mini-footer-social a {
+    display: inline-flex;
+    line-height: 1;
+}
+
+.mini-footer-external-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+}
+
+.external-link-icon {
+    vertical-align: middle;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.mini-footer-external-link:hover .external-link-icon,
+.mini-footer a:hover {
+    opacity: 1;
+}
+
+/* Mini Footer Mobile */
+@media (max-width: 650px) {
+    .mini-footer-text {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .mini-footer-bullet {
+        display: none;
+    }
+    
+    .mini-footer-links {
+        margin-top: .6rem;
+    }
+}
+
+
+/* ================================================
+   UI COMPONENTS
+   ================================================ */
+
+.gh-button,
+.gh-form {
+    border-radius: 4px !important;
+}
+
+
+/* ================================================
+   UTILITY CLASSES
+   ================================================ */
+
+.hidden {
+    display: none;
+}

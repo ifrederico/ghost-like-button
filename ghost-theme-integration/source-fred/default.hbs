@@ -7,9 +7,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-     {{!-- Preload font --}}
-    <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&display=swap" rel="stylesheet">
-
     {{!-- Preload main styles and scripts for better performance --}}
     <link rel="preload" as="style" href="{{asset "built/screen.css"}}">
     <link rel="preload" as="script" href="{{asset "built/source.js"}}">
@@ -21,10 +18,9 @@
     <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}">
 
 
-    {{!-- Theme customizations --}}
-    <link rel="stylesheet" type="text/css" href="{{asset "heart/heart.css"}}">
-    <link rel="stylesheet" type="text/css" href="{{asset "built/app.css"}}">
-
+    {{!-- Custom theme styles --}}
+    <link rel="stylesheet" type="text/css" href="{{asset "theme/app.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "theme/components/heart.css"}}">
 
     {{!-- Custom background color --}}
     <style>
@@ -65,7 +61,10 @@
     {{{body}}}
     
     {{> "components/footer"}}
+
+    {{!-- Applause Portal Sign In Link --}}
     <a id="applause-portal-signin" data-portal="signin" hidden></a>
+
 </div>
 
 {{#is "post, page"}}
@@ -77,6 +76,11 @@
 
 {{!-- Ghost outputs required functional scripts with this tag, it should always be the last thing before the closing body tag --}}
 {{ghost_foot}}
-<script defer src="{{asset "heart/heart.js"}}"></script>
+
+{{!-- Custom theme scripts --}}
+<script defer src="{{asset "theme/components/post-actions.js"}}"></script>
+<script defer src="{{asset "theme/components/heart.js"}}"></script>
+<script defer src="{{asset "theme/app.js"}}"></script>
+
 </body>
 </html>
