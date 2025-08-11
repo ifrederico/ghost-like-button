@@ -85,5 +85,4 @@ Contributions welcome!
 
 ## 💬 Support
 
-- Open an issue
-- Discussions
+Feel free to open an issue or start a discussion if you need help with setup.
