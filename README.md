@@ -6,12 +6,6 @@ Self-hosted likes for Ghost members, backed by SQLite and delivered as a Node se
 
 ## 🚀 Quick Install
 
-### One-line install
-```bash
-curl -s https://raw.githubusercontent.com/ifrederico/ghost-like-button/master/install.sh | bash
-```
-
-### Or clone and install
 ```bash
 git clone https://github.com/ifrederico/ghost-like-button.git
 cd ghost-like-button
@@ -19,10 +13,39 @@ bash install.sh
 ```
 
 The installer will:
-- Prompt for your Ghost URL
+- Prompt for your Ghost URL (full URL with https://)
 - Auto-detect your Ghost Docker network
 - Create necessary directories with correct permissions
 - Start the service
+
+---
+
+## 📦 Manual Installation
+
+If you prefer to configure everything yourself:
+
+```bash
+# Clone the repository
+git clone https://github.com/ifrederico/ghost-like-button.git
+cd ghost-like-button
+
+# Create and configure .env
+cp .env.example .env
+nano .env  # Set your GHOST_URL
+
+# Find your Ghost Docker network
+docker network ls | grep ghost
+
+# Edit compose.yml with your network name
+nano compose.yml  # Replace ghost_ghost_network with your actual network
+
+# Create data directory with correct permissions
+mkdir -p data
+chown -R 1000:1000 data/
+
+# Start the service
+docker compose up -d
+```
 
 ---
 
@@ -35,6 +58,8 @@ The installer will:
 ---
 
 ## Theme Integration
+
+> **Looking for a complete example?** Check out [Pastiche](https://github.com/ifrederico/ghost-theme-pastiche) - a Ghost theme with the like button already integrated.
 
 Add the like button to your Ghost theme:
 
@@ -97,7 +122,7 @@ yourdomain.com {
 
 | Variable    | Required | Default | Purpose                               |
 |-------------|----------|---------|---------------------------------------|
-| `GHOST_URL` | Yes      | -       | Allowed origin + member JWT audience. |
+| `GHOST_URL` | Yes      | -       | Full Ghost URL (e.g., https://yourdomain.com). Used for CORS and JWT validation. |
 | `PORT`      | No       | `8787`  | Internal HTTP port.                   |
 | `NODE_ENV`  | No       | `production` | Standard Node environment flag. |
 
