@@ -1,0 +1,25 @@
+services:
+  ghost-like-button:
+    build: .
+    container_name: ghost-like-button
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./data:/data                  # stores /data/ghost-like-button.db
+    networks:
+      ghost_ghost_network: {}         # replace with your Ghost network name
+    mem_limit: 128m                   # keep memory tight
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8787/health > /dev/null"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  ghost_ghost_network:
+    external: true
+    name: ghost_ghost_network         # update if your network uses a different name

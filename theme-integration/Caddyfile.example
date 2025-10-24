@@ -1,0 +1,29 @@
+# Ghost Like Button reverse proxy examples for Caddy
+
+# Option 1: handle_path (automatic strip of the matched prefix)
+yourdomain.com {
+    # Existing Ghost directives...
+
+    handle_path /ghost-like-button/* {
+        reverse_proxy ghost-like-button:8787
+    }
+
+    # Existing Ghost proxy
+    reverse_proxy ghost:2368
+}
+
+# Option 2: explicit matcher with strip_prefix
+yourdomain.com {
+    # Existing Ghost directives...
+
+    @like path /ghost-like-button*
+    handle @like {
+        uri strip_prefix /ghost-like-button
+        reverse_proxy ghost-like-button:8787 # container_name or service alias
+    }
+
+    # Default: everything else to Ghost
+    handle {
+        reverse_proxy ghost:2368
+    }
+}
