@@ -2,6 +2,8 @@
 
 Self-hosted likes for Ghost members, backed by SQLite and delivered as a Node service.
 
+![Ghost Like Button Demo](./images/demo.gif)
+
 ---
 
 ## 🚀 Quick Install
