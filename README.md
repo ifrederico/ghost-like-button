@@ -18,6 +18,7 @@ Self-hosted likes for Ghost members, backed by SQLite and delivered as a Node se
 docker network ls | grep ghost          # note the network name, e.g. ghost_ghost_network
 mkdir ghost-like-button && cd ghost-like-button
 mkdir -p data
+cp .env.example .env # adjust values before running compose 
 ```
 
 ### Compose file
@@ -61,6 +62,19 @@ docker compose exec ghost-like-button curl -fsS http://localhost:8787/health
 This command runs inside the container and hits `http://localhost:8787/health`. It returns JSON when accessed via tools like `curl`. Browser visits intentionally show a Ghost-style 404 to keep the endpoint quiet from casual probing.
 
 The SQLite database lives in `./data/ghost-like-button.db`. Back it up like any other file.
+
+### Quick test with plain Docker
+
+```bash
+mkdir -p data
+docker run --rm \
+  -p 8787:8787 \
+  -e GHOST_URL=https://example.com \
+  -v "$(pwd)/data:/data" \
+  ifrederico/ghost-like-button:1.0.0
+```
+
+Hit `http://localhost:8787/health` from another terminal while the container runs. Use `Ctrl+C` to stop it when you’re done.
 
 ---
 
