@@ -1,6 +1,6 @@
 services:
   ghost-like-button:
-    build: .
+    image: ifrederico/ghost-like-button:1.0.1
     container_name: ghost-like-button
     restart: unless-stopped
     env_file:
@@ -8,10 +8,12 @@ services:
     environment:
       NODE_ENV: production
     volumes:
-      - ./data:/data                  # stores /data/ghost-like-button.db
+      - ./data:/data
+    ports:
+      - "8787:8787"
     networks:
-      ghost_ghost_network: {}         # replace with your Ghost network name
-    mem_limit: 128m                   # keep memory tight
+      ghost_ghost_network: {}     # swap for your network if needed
+    mem_limit: 128m
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:8787/health > /dev/null"]
       interval: 30s
@@ -22,4 +24,4 @@ services:
 networks:
   ghost_ghost_network:
     external: true
-    name: ghost_ghost_network         # update if your network uses a different name
+    name: ghost_ghost_network
