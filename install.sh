@@ -18,8 +18,8 @@ else
     cd "$INSTALL_DIR"
     
     # Download required files
-    curl -sO https://raw.githubusercontent.com/ifrederico/ghost-like-button/main/compose.yml
-    curl -sO https://raw.githubusercontent.com/ifrederico/ghost-like-button/main/.env.example
+    curl -sO https://raw.githubusercontent.com/ifrederico/ghost-like-button/master/compose.yml
+    curl -sO https://raw.githubusercontent.com/ifrederico/ghost-like-button/master/.env.example
 fi
 
 # Get Ghost URL
@@ -31,9 +31,10 @@ if [[ ! "$GHOST_URL" =~ ^https?:// ]]; then
     exit 1
 fi
 
-# Create directories
+# Create directories with correct permissions
 echo "📁 Creating directories..."
 mkdir -p data
+chown -R 1000:1000 data/ 2>/dev/null || chmod -R 755 data/
 
 # Create .env file
 echo "📝 Creating configuration..."

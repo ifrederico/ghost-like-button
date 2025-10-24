@@ -8,7 +8,7 @@ Self-hosted likes for Ghost members, backed by SQLite and delivered as a Node se
 
 ### One-line install
 ```bash
-curl -s https://raw.githubusercontent.com/ifrederico/ghost-like-button/main/install.sh | bash
+curl -s https://raw.githubusercontent.com/ifrederico/ghost-like-button/master/install.sh | bash
 ```
 
 ### Or clone and install
@@ -21,7 +21,7 @@ bash install.sh
 The installer will:
 - Prompt for your Ghost URL
 - Auto-detect your Ghost Docker network
-- Create necessary directories
+- Create necessary directories with correct permissions
 - Start the service
 
 ---
@@ -41,6 +41,7 @@ Add the like button to your Ghost theme:
 ### 1. Add to your post template
 
 In `post.hbs` or `index.hbs`:
+
 ```handlebars
 <like-button api="/ghost-like-button" url="{{url absolute="true"}}"></like-button>
 <script defer src="{{asset "js/ghost-like-button.js"}}"></script>
@@ -49,6 +50,7 @@ In `post.hbs` or `index.hbs`:
 ### 2. Create the web component
 
 Create `assets/js/ghost-like-button.js`:
+
 ```javascript
 customElements.define('like-button', class extends HTMLElement {
   async connectedCallback() {
@@ -75,6 +77,7 @@ customElements.define('like-button', class extends HTMLElement {
 ### 3. Configure reverse proxy
 
 Add to your Caddy configuration (see `Caddyfile.example` for full examples):
+
 ```caddyfile
 yourdomain.com {
     # Your existing Ghost config...
@@ -115,6 +118,7 @@ Edit `.env` to change these values.
 ---
 
 ## 🔄 Updates
+
 ```bash
 cd ghost-like-button
 git pull
@@ -127,6 +131,7 @@ Your database in `./data/` is preserved across updates.
 ---
 
 ## 🛠️ Maintenance
+
 ```bash
 # View logs
 docker compose logs ghost-like-button
@@ -146,6 +151,7 @@ docker compose restart ghost-like-button
 ## 💾 Backup
 
 Your SQLite database is stored in `./data/ghost-like-button.db`. Back it up like any other file:
+
 ```bash
 cp data/ghost-like-button.db data/ghost-like-button.db.backup
 ```
