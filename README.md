@@ -4,91 +4,51 @@ Self-hosted likes for Ghost members, backed by SQLite and delivered as a Node se
 
 ---
 
-## Deployment
+## 🚀 Quick Install
 
-### Prerequisites
-
-- Docker + Docker Compose.
-- A running Ghost stack (the like service will join its Docker network).
-- Ghost Admin → Settings → Membership → “Enable members” turned on (needed for member JWTs).
-
-### Prepare the workspace
-
+### One-line install
 ```bash
-docker network ls | grep ghost          # note the network name, e.g. ghost_ghost_network
-mkdir ghost-like-button && cd ghost-like-button
-mkdir -p data
-cp .env.example .env # adjust values before running compose 
+curl -s https://raw.githubusercontent.com/ifrederico/ghost-like-button/main/install.sh | bash
 ```
 
-### Compose file
-
-Save this as `compose.yml` and swap the placeholders for your setup:
-
-```yaml
-services:
-  ghost-like-button:
-    image: ifrederico/ghost-like-button:latest              # published Docker Hub image
-    environment:
-      GHOST_URL: https://yourdomain.com                     # Ghost frontend URL
-      NODE_ENV: production
-    volumes:
-      - ./data:/data                                        # persists ghost-like-button.db
-    ports:
-      - "8787:8787"
-    networks:
-      ghost_ghost_network: {}                               # replace with your Ghost network name
-    restart: unless-stopped
-    mem_limit: 128m
-    healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:8787/health > /dev/null"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-
-networks:
-  ghost_ghost_network:
-    external: true                                          # must already exist
-```
-
-### Launch
-
+### Or clone and install
 ```bash
-docker compose up -d
-docker compose exec ghost-like-button curl -fsS http://localhost:8787/health
+git clone https://github.com/ifrederico/ghost-like-button.git
+cd ghost-like-button
+bash install.sh
 ```
 
-This command runs inside the container and hits `http://localhost:8787/health`. It returns JSON when accessed via tools like `curl`. Browser visits intentionally show a Ghost-style 404 to keep the endpoint quiet from casual probing.
+The installer will:
+- Prompt for your Ghost URL
+- Auto-detect your Ghost Docker network
+- Create necessary directories
+- Start the service
 
-The SQLite database lives in `./data/ghost-like-button.db`. Back it up like any other file.
+---
 
-### Quick test with plain Docker
+## 📋 Requirements
 
-```bash
-mkdir -p data
-docker run --rm \
-  -p 8787:8787 \
-  -e GHOST_URL=https://example.com \
-  -v "$(pwd)/data:/data" \
-  ifrederico/ghost-like-button:1.0.0
-```
-
-Hit `http://localhost:8787/health` from another terminal while the container runs. Use `Ctrl+C` to stop it when you’re done.
+- Docker + Docker Compose
+- A running Ghost instance (the like service joins its Docker network)
+- Ghost members enabled (Settings → Membership)
 
 ---
 
 ## Theme Integration
 
-Add the custom element to your post template (`post.hbs`, `index.hbs`, etc.):
+Add the like button to your Ghost theme:
 
+### 1. Add to your post template
+
+In `post.hbs` or `index.hbs`:
 ```handlebars
 <like-button api="/ghost-like-button" url="{{url absolute="true"}}"></like-button>
 <script defer src="{{asset "js/ghost-like-button.js"}}"></script>
 ```
 
-Drop this minimal loader into `assets/js/ghost-like-button.js` (or bundle it with your theme):
+### 2. Create the web component
 
+Create `assets/js/ghost-like-button.js`:
 ```javascript
 customElements.define('like-button', class extends HTMLElement {
   async connectedCallback() {
@@ -112,23 +72,25 @@ customElements.define('like-button', class extends HTMLElement {
 });
 ```
 
-Configure your reverse proxy so `/ghost-like-button/*` routes to the container. Example Caddy block:
+### 3. Configure reverse proxy
 
+Add to your Caddy configuration (see `Caddyfile.example` for full examples):
 ```caddyfile
 yourdomain.com {
-    @like path /ghost-like-button*
-    handle @like {
-        uri strip_prefix /ghost-like-button
+    # Your existing Ghost config...
+
+    handle_path /ghost-like-button/* {
         reverse_proxy ghost-like-button:8787
     }
+
+    # Your Ghost service
+    reverse_proxy ghost:2368
 }
 ```
 
-Need a full theme workflow (assets, CSS, Caddy examples)? See `theme-integration/README.md`.
-
 ---
 
-## Configuration
+## 🔧 Configuration
 
 | Variable    | Required | Default | Purpose                               |
 |-------------|----------|---------|---------------------------------------|
@@ -136,9 +98,11 @@ Need a full theme workflow (assets, CSS, Caddy examples)? See `theme-integration
 | `PORT`      | No       | `8787`  | Internal HTTP port.                   |
 | `NODE_ENV`  | No       | `production` | Standard Node environment flag. |
 
+Edit `.env` to change these values.
+
 ---
 
-## API Reference
+## 📡 API Reference
 
 | Method & Path                     | Description                         |
 |-----------------------------------|-------------------------------------|
@@ -150,21 +114,59 @@ Need a full theme workflow (assets, CSS, Caddy examples)? See `theme-integration
 
 ---
 
-## Maintenance (optional)
-
-Useful commands when you need them:
-
+## 🔄 Updates
 ```bash
+cd ghost-like-button
+git pull
+docker compose pull
+docker compose up -d
+```
+
+Your database in `./data/` is preserved across updates.
+
+---
+
+## 🛠️ Maintenance
+```bash
+# View logs
 docker compose logs ghost-like-button
+
+# Check database
 sqlite3 data/ghost-like-button.db ".tables"
-sqlite3 data/ghost-like-button.db "PRAGMA wal_checkpoint(TRUNCATE);"  # compacts WAL, optional
-docker compose pull && docker compose up -d                           # upgrade to new image
+
+# Compact database (optional)
+sqlite3 data/ghost-like-button.db "PRAGMA wal_checkpoint(TRUNCATE);"
+
+# Restart service
+docker compose restart ghost-like-button
 ```
 
 ---
 
-## Support & License
+## 💾 Backup
 
-- Issues: open a ticket on your GitHub repository.
-- Discussions: chat with the community where you host the project.
-- License: MIT — fork it, remix it, share it.
+Your SQLite database is stored in `./data/ghost-like-button.db`. Back it up like any other file:
+```bash
+cp data/ghost-like-button.db data/ghost-like-button.db.backup
+```
+
+---
+
+## 🔒 Security
+
+- Rate limiting: 90 requests/minute per IP
+- CORS restricted to your Ghost domain
+- JWT validation (trusted internal network)
+- No personal data stored except email for deduplication
+
+---
+
+## 📝 License
+
+MIT License - See LICENSE file
+
+---
+
+## 💬 Support
+
+Open an issue on GitHub if you need help with setup.
