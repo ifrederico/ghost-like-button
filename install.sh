@@ -22,8 +22,8 @@ else
     curl -sO https://raw.githubusercontent.com/ifrederico/ghost-like-button/master/.env.example
 fi
 
-# Get Ghost URL
-read -p "Enter your Ghost URL (e.g., https://yourdomain.com): " GHOST_URL
+# Get Ghost URL (read from terminal, not stdin)
+read -p "Enter your Ghost URL (e.g., https://yourdomain.com): " GHOST_URL </dev/tty
 
 # Validate URL format
 if [[ ! "$GHOST_URL" =~ ^https?:// ]]; then
@@ -50,12 +50,12 @@ echo "🔍 Looking for Ghost Docker network..."
 GHOST_NETWORK=$(docker network ls --format "{{.Name}}" | grep ghost | head -n 1)
 
 if [ -z "$GHOST_NETWORK" ]; then
-    read -p "Enter your Ghost Docker network name: " GHOST_NETWORK
+    read -p "Enter your Ghost Docker network name: " GHOST_NETWORK </dev/tty
 else
     echo "Found: $GHOST_NETWORK"
-    read -p "Use this network? (y/n): " confirm
+    read -p "Use this network? (y/n): " confirm </dev/tty
     if [ "$confirm" != "y" ]; then
-        read -p "Enter your Ghost Docker network name: " GHOST_NETWORK
+        read -p "Enter your Ghost Docker network name: " GHOST_NETWORK </dev/tty
     fi
 fi
 
